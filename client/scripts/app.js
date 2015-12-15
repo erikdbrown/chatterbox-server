@@ -18,7 +18,6 @@ var app = {
     };
 
     $('#message').val("What do you want to say?");
-    console.dir(message)
     app.send(message)
   }, 
   
@@ -38,8 +37,7 @@ var app = {
     // This is the url you should use to communicate with the parse API server.
       url: app.server,
       type: 'POST',
-        data: JSON.stringify(message),
-      contentType: 'application/json',
+      data: JSON.stringify(message),
       success: function (data) {
         console.log('chatterbox: Message sent');
         app.clearMessages()
@@ -57,12 +55,15 @@ var app = {
     $.ajax({
       url: app.server,
       type: 'GET',
-      data: 'json',
       success: function(data) {
         app.clearMessages();
         for (var i = 0; i < data.results.length; i++) {
           app.addMessage(data.results[i]);
         }
+        console.log("success")
+      },
+      error: function() {
+        console.log("You've errored")
       }
 
     });
@@ -154,8 +155,7 @@ var app = {
 
 };
 
-module.exports = app;
-// setInterval(app.fetch, 500);
+setInterval(app.fetch, 500);
 app.init();
 
 

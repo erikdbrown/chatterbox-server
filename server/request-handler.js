@@ -12,7 +12,7 @@ this file and include it in basic-server.js so that it actually works.
 
 **************************************************************/
 var storage = {};
-  storage.results = [];
+storage.results = [];
 
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
@@ -32,14 +32,12 @@ var requestHandler = function(request, response) {
   console.log("Serving request type " + request.method + " for url " + request.url);
 
   var headers = defaultCorsHeaders;
-  
-
 
   if (request.method === 'GET') {
     if (request.url === '/arglebargle') {
       response.writeHead(404, headers);
       response.end("response not found");
-    } else if (request.url === '/classes/messages') {
+    } else if (request.url === '/classes/messages' || request.url === '/classes/rooms') {
       headers['Content-Type'] = "application/json";
       response.writeHead(200, headers);
       response.end(JSON.stringify(storage));
@@ -51,6 +49,10 @@ var requestHandler = function(request, response) {
       storage.results.push(JSON.parse(data.toString('utf8')));
     });
     response.end(JSON.stringify(storage.results));
+  } else if (request.method === "OPTIONS") {  
+    // Add headers to response and send
+    response.writeHead(200, headers);
+    response.end();
   }
 
   // The outgoing status.
@@ -95,5 +97,7 @@ var defaultCorsHeaders = {
   "access-control-max-age": 10 // Seconds.
 };
 
-module.exports = requestHandler;
+exports.requestHandler = requestHandler;
+// module.exports = requestHandler;
+
 
