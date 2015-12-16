@@ -1,5 +1,5 @@
 var app = {
-  server: 'http://127.0.0.1:3000/classes/messages',
+  server: 'http://127.0.0.1:3000',
 
   rooms: [],
 
@@ -155,7 +155,7 @@ var app = {
 
 };
 
-setInterval(app.fetch, 500);
+setInterval(app.fetch, 1000);
 app.init();
 
 
